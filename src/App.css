@@ -63,8 +63,17 @@ input[type="date"], input[type="month"] {
   color: var(--kitty-text) !important;
   font-family: var(--font-numbers) !important;
   font-weight: 600;
-  min-height: 48px;
+  min-height: 42px;
   line-height: 1.2;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  /* iOS Safari renders its native date/month control at an intrinsic width
+     that ignores width/max-width unless appearance is reset, which is what
+     was pushing this field past the modal edge. */
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 /* Custom scrollbar */
@@ -557,6 +566,7 @@ input[type="date"], input[type="month"] {
   outline: none;
   transition: border-color 0.2s;
   width: 100%;
+  min-width: 0;
 }
 
 .cute-input:focus {
@@ -574,6 +584,7 @@ input[type="date"], input[type="month"] {
   outline: none;
   cursor: pointer;
   width: 100%;
+  min-width: 0;
 }
 
 .cute-select:focus {
@@ -587,6 +598,7 @@ input[type="date"], input[type="month"] {
 
 .form-row > * {
   flex: 1;
+  min-width: 0;
 }
 
 .btn-submit {

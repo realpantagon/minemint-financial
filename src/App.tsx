@@ -545,6 +545,26 @@ function App() {
           // Filter transactions related to this account
           const accTxs = transactions.filter(t => t.accountId === acc.id || t.targetAccountId === acc.id);
 
+          const totalIncomeForAcc = accTxs.reduce((sum, t) => {
+            if (t.type === 'income' && t.accountId === acc.id) {
+              return sum + t.amount;
+            }
+            if (t.type === 'transfer' && t.targetAccountId === acc.id) {
+              return sum + t.amount;
+            }
+            return sum;
+          }, 0);
+
+          const totalExpenseForAcc = accTxs.reduce((sum, t) => {
+            if (t.type === 'expense' && t.accountId === acc.id) {
+              return sum + t.amount;
+            }
+            if (t.type === 'transfer' && t.accountId === acc.id) {
+              return sum + t.amount;
+            }
+            return sum;
+          }, 0);
+
           return (
             <div>
               <div className="section-title-bar" style={{ marginBottom: '16px' }}>
@@ -590,6 +610,19 @@ function App() {
                       เป้าหมาย: {formatMoney(acc.goal)}
                     </span>
                   )}
+                </div>
+
+                {/* Summary of Total Income / Total Expense for this account */}
+                <div style={{ display: 'flex', gap: '8px', background: 'var(--kitty-bg)', padding: '8px 10px', borderRadius: '10px', marginBottom: '10px', fontSize: '11px' }}>
+                  <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '1px' }}>
+                    <span style={{ color: 'var(--kitty-text-light)', fontWeight: 600 }}>รายรับรวม</span>
+                    <span className="num-font" style={{ color: 'var(--kitty-blue)', fontWeight: 700, fontSize: '12px' }}>+{formatMoney(totalIncomeForAcc)}</span>
+                  </div>
+                  <div style={{ width: '1px', background: 'var(--kitty-border)', alignSelf: 'stretch' }} />
+                  <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '1px', paddingLeft: '8px' }}>
+                    <span style={{ color: 'var(--kitty-text-light)', fontWeight: 600 }}>รายจ่ายรวม</span>
+                    <span className="num-font" style={{ color: 'var(--kitty-red)', fontWeight: 700, fontSize: '12px' }}>-{formatMoney(totalExpenseForAcc)}</span>
+                  </div>
                 </div>
 
                 {acc.goal > 0 && (

@@ -8,6 +8,13 @@ html, body {
   background-color: #FFFFFF !important;
   margin: 0;
   padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  position: fixed;
+  left: 0;
+  top: 0;
+  -webkit-overflow-scrolling: touch;
 }
 
 :root {
@@ -40,7 +47,7 @@ html, body {
   background-color: #FFFFFF !important;
   font-family: var(--font-clean);
   color: var(--kitty-text);
-  height: 100vh;
+  height: 100%;
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;

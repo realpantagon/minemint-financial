@@ -502,9 +502,6 @@ function App() {
     setIsLoggingSalaryViewActive(true);
   };
 
-  const currentMonth = getCurrentMonthString();
-  const isSalaryLoggedThisMonth = salaryLogs.some(log => log.month === currentMonth);
-
   return (
     <div className="app-container">
       {/* App Header */}
@@ -522,7 +519,8 @@ function App() {
         </div>
       </header>
 
-      {isLoading ? (
+      <div className="app-main-content">
+        {isLoading ? (
         <div className="empty-state">
           <div className="empty-kitty">⏳</div>
           <p>กำลังโหลดข้อมูล...</p>
@@ -566,7 +564,7 @@ function App() {
           }, 0);
 
           return (
-            <div>
+            <div style={{ display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden' }}>
               <div className="section-title-bar" style={{ marginBottom: '16px' }}>
                 <button 
                   className="cute-btn-sm" 
@@ -656,10 +654,11 @@ function App() {
                 </div>
               </div>
 
-              {/* Transactions for this account */}
-              <h3 className="section-title" style={{ fontSize: '13px', marginBottom: '8px' }}>
-                📝 ประวัติรายการของบัญชีนี้
-              </h3>
+              {/* Transactions for this account (Scrollable container) */}
+              <div style={{ flex: 1, overflowY: 'auto', minHeight: 0, paddingRight: '2px', paddingBottom: '20px', marginTop: '8px' }}>
+                <h3 className="section-title" style={{ fontSize: '13px', marginBottom: '8px' }}>
+                  📝 ประวัติรายการของบัญชีนี้
+                </h3>
               
               <div className="transaction-list">
                 {accTxs.length === 0 ? (
@@ -710,11 +709,12 @@ function App() {
                 )}
               </div>
             </div>
+          </div>
           );
         })()
       ) : isLoggingSalaryViewActive ? (
         // Salary Logging View (Full Page)
-        <div>
+        <div style={{ display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden' }}>
           <div className="section-title-bar" style={{ marginBottom: '12px' }}>
             <button 
               className="cute-btn-sm" 
@@ -730,7 +730,8 @@ function App() {
             <h2 className="section-title" style={{ fontSize: '14px' }}>บันทึกเงินเดือน</h2>
           </div>
 
-          <div className="salary-log-card" style={{ borderStyle: 'solid', borderWidth: '2px', background: 'var(--kitty-yellow-light)' }}>
+          <div style={{ flex: 1, overflowY: 'auto', minHeight: 0, paddingRight: '2px', paddingBottom: '20px' }}>
+            <div className="salary-log-card" style={{ borderStyle: 'solid', borderWidth: '2px', background: 'var(--kitty-yellow-light)' }}>
             <h3 className="salary-title" style={{ fontSize: '13px', marginBottom: '10px' }}>
               <Sparkles size={18} fill="var(--kitty-yellow)" color="#B28200" />
               ระบุยอดเงินเดือนและเลือกบัญชีปลายทาง
@@ -827,6 +828,7 @@ function App() {
             </form>
           </div>
         </div>
+      </div>
       ) : isSalaryHistoryOpen ? (
         // Salary History View (Full Page)
         (() => {
@@ -845,7 +847,7 @@ function App() {
           };
 
           return (
-            <div>
+            <div style={{ display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden' }}>
               <div className="section-title-bar" style={{ marginBottom: '12px' }}>
                 <button 
                   className="cute-btn-sm" 
@@ -865,9 +867,9 @@ function App() {
                   <p style={{ color: 'var(--kitty-text-light)', fontWeight: 700 }}>ยังไม่มีประวัติบันทึกเงินเดือน</p>
                 </div>
               ) : (
-                <div>
+                <div style={{ display: 'flex', flexDirection: 'column', flex: 1, overflow: 'hidden' }}>
                   {/* View Mode Switcher */}
-                  <div style={{ display: 'flex', background: 'white', padding: '3px', borderRadius: '12px', border: '1px solid var(--kitty-border)', marginBottom: '12px', gap: '3px' }}>
+                  <div style={{ display: 'flex', background: 'white', padding: '3px', borderRadius: '12px', border: '1px solid var(--kitty-border)', marginBottom: '12px', gap: '3px', flexShrink: 0 }}>
                     <button 
                        type="button" 
                       className={`tab-btn ${historyViewMode === 'all' ? 'active' : ''}`}
@@ -886,7 +888,8 @@ function App() {
                     </button>
                   </div>
 
-                  {historyViewMode === 'all' ? (
+                  <div style={{ flex: 1, overflowY: 'auto', minHeight: 0, paddingRight: '2px', paddingBottom: '20px' }}>
+                    {historyViewMode === 'all' ? (
                     /* Stacked List of All Months View (Default) */
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                       {salaryLogs.map(log => (
@@ -1047,6 +1050,7 @@ function App() {
                       </div>
                     </div>
                   )}
+                  </div>
                 </div>
               )}
             </div>
@@ -1054,7 +1058,7 @@ function App() {
         })()
       ) : (
         // Main Dashboard View (Summary, Salary Logs, Tabs)
-        <>
+        <div style={{ display: 'flex', flexDirection: 'column', flex: 1, overflow: 'hidden', height: '100%' }}>
           {/* Summary Card with Donut Chart */}
           <div className="summary-card" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px' }}>
             <div style={{ flex: 1 }}>
@@ -1120,8 +1124,9 @@ function App() {
             </button>
           </nav>
 
-          {/* Tab 1: Accounts list (simplified view) */}
-          {activeTab === 'accounts' && (
+          <div style={{ flex: 1, overflowY: 'auto', minHeight: 0, paddingRight: '2px', paddingBottom: '20px' }}>
+            {/* Tab 1: Accounts list (simplified view) */}
+            {activeTab === 'accounts' && (
             <div>
               <div className="section-title-bar">
                 <h2 className="section-title">บัญชีทั้งหมด</h2>
@@ -1281,7 +1286,8 @@ function App() {
           </div>
         </div>
       )}
-        </>
+          </div>
+        </div>
       )}
 
 
@@ -1424,10 +1430,10 @@ function App() {
                 className="btn-submit"
                 style={{ 
                   margin: 0, 
-                  background: isSalaryLoggedThisMonth ? 'var(--kitty-yellow-light)' : 'var(--kitty-blue)', 
-                  color: isSalaryLoggedThisMonth ? '#5C4300' : 'white',
-                  border: isSalaryLoggedThisMonth ? '2px dashed var(--kitty-yellow)' : 'none',
-                  boxShadow: isSalaryLoggedThisMonth ? 'none' : '0 4px 10px rgba(10, 102, 194, 0.2)',
+                  background: 'var(--kitty-blue)', 
+                  color: 'white',
+                  border: 'none',
+                  boxShadow: '0 4px 10px rgba(10, 102, 194, 0.2)',
                   padding: '14px'
                 }}
                 onClick={() => {
@@ -1435,7 +1441,7 @@ function App() {
                   setIsLoggingSalaryViewActive(true);
                 }}
               >
-                {isSalaryLoggedThisMonth ? `เงินเดือนเดือนนี้บันทึกแล้ว (บันทึกซ้ำ)` : `บันทึกเงินเดือนเดือนนี้`}
+                บันทึกเงินเดือน
               </button>
 
               <button 
@@ -1691,6 +1697,7 @@ function App() {
           </div>
         </div>
       )}
+      </div>
     </div>
   );
 }

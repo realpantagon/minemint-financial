@@ -1,0 +1,18 @@
+{
+  "name": "Minemint Finance",
+  "short_name": "Minemint Finance",
+  "description": "แอปบันทึกรายรับ-รายจ่ายรายเดือน",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FFFFFF",
+  "theme_color": "#FF2E55",
+  "icons": [
+    {
+      "src": "/app-logo.png",
+      "sizes": "192x192 512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
